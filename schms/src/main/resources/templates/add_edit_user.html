@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="common/header :: common-header"/>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        
+        
+        <!-- Sidebar -->
+      	<div th:replace="common/header :: common-sidebar"/>
+
+        <!-- top navigation -->
+        <div th:replace="common/header :: common-navbar"/>
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3 th:text="${action + ' User'}"></h3>
+			  </div>
+            </div>
+            <div class="clearfix"></div>
+            
+            
+            <div class="alert alert-danger" th:if="${usernameExists}">
+  				<strong>Careful!</strong> Username already exists, use another.
+			</div>
+            <div class="alert alert-danger" th:if="${emailExists}">
+  				<strong>Careful!</strong> Email already exists, use another.
+			</div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <form class="form-horizontal form-label-left" th:action="@{|/user/${action}|}" method="POST" >
+                      <input type="hidden" name="id" th:value="${user.id}" />
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="name" class="form-control col-md-7 col-xs-12" th:value="${user.name}" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Orik Hoxha" required="required" type="text"/>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="email" id="email" name="email" required="required" th:value="${user.email}" class="form-control col-md-7 col-xs-12"/>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="username" id="username" name="username" data-validate-words="2" th:value="${user.username}" required="required" class="form-control col-md-7 col-xs-12"/>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Role<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" name="role" >
+                           <option></option>
+                            <option th:selected="${user.role == 0}" th:value="0" >Admin</option>
+                            <option th:selected="${user.role == 1}" th:value="1">User</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="password" id="password" name="password" th:value="${user.password}" required="required" class="form-control col-md-7 col-xs-12"/>
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          <a th:href="@{/user/list}" class="btn btn-primary">Cancel</a>
+                          <button id="send" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer th:replace="common/footer :: common-footer"/>
+        
+        <!-- bottom scripts -->
+        <div th:replace="common/footer :: common-bottom-scripts" />
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="common/header :: common-header"/>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        
+        
+        <!-- Sidebar -->
+      	<div th:replace="common/header :: common-sidebar"/>
+
+        <!-- top navigation -->
+        <div th:replace="common/header :: common-navbar"/>
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3 th:text="${action + ' Schedule'}"></h3>
+			  </div>
+            </div>
+            <div class="clearfix"></div>
+            
+            <div class="alert alert-danger" th:if="${nameExists}">
+  				<strong>Careful!</strong> Name already exists, use another.
+			</div>
+			
+			<div class="alert alert-danger" th:if="${emailExists}">
+  				<strong>Careful!</strong> Email already exists, use another.
+			</div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <form class="form-horizontal form-label-left" th:action="@{|/schedule/${action}|}" method="POST">
+                       <input type="hidden" name="id" th:value="${schedule.id}" />
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Type <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" name="type">
+                           <option></option>
+                            <option value="1" th:selected="${schedule.type == 1}">Lecture</option>
+                            <option value="2" th:selected="${schedule.day == 2}">Lab</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="description">Description <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea id="description" name="description"  th:field="${schedule.description}" required="required" class="form-control col-md-7 col-xs-12"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Day <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" name="day">
+                           <option></option>
+                            <option value="Monday" th:selected="${schedule.day == 'Monday'}">Monday</option>
+                            <option value="Tuesday" th:selected="${schedule.day == 'Tuesday'}">Tuesday</option>
+                            <option value="Wednesday" th:selected="${schedule.day == 'Wednesday'}">Wednesday</option>
+                            <option value="Thursday" th:selected="${schedule.day == 'Thursday'}">Thursday</option>
+                            <option value="Friday" th:selected="${schedule.day == 'Friday'}">Friday</option>
+                            <option value="Saturday" th:selected="${schedule.day == 'Saturday'}">Saturday</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="dueDate">Time From <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div class='input-group date'>
+                          	<input id="timeFrom" type="text" name="timeFrom"  th:value="${schedule.timeFrom}" required="required" class="form-control col-md-7 col-xs-12" />
+                          	<span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar" id="timeFrom"></span>
+                            </span>
+						   </div>
+                         </div>
+                       </div>
+                       <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="dueDate">Time To <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div class='input-group date'>
+                          	<input id="timeTo" type="text" name="timeTo"  th:value="${schedule.timeTo}" required="required" class="form-control col-md-7 col-xs-12" />
+                          	<span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar" id="timeTo"></span>
+                            </span>
+						   </div>
+                         </div>
+                       </div>
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Course <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" name="course">
+                           <option></option>
+                            <option th:each="course : ${courses}"  th:value="${course.id}" th:text="${course.name}" th:selected="${action == 'edit' ? (course.id == schedule.course.id) : (1 == 0)}"></option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          <a th:href="@{/schedule/list}"  type="submit" class="btn btn-primary">Cancel</a>
+                          <button id="send" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer th:replace="common/footer :: common-footer"/>
+        
+        <!-- bottom scripts -->
+        <div th:replace="common/footer :: common-bottom-scripts" />
+        <script>
+        $(function(){
+        	$('#timeFrom').datetimepicker({
+		        format: 'HH:mm'
+		    });
+        	
+        	$('#timeTo').datetimepicker({
+		        format: 'HH:mm'
+		    });
+        });
+        
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
