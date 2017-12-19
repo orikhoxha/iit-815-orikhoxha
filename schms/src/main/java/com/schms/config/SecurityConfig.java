@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests().
 		/*	antMatchers("/**").    Uncomment this line to work without login*/
-			antMatchers(PUBLIC_MATCHERS). /*Comment this line to work with login(Doesn't work for now)*/
+			antMatchers(PUBLIC_MATCHERS). /*Comment this line to work with login*/
 			permitAll().anyRequest().authenticated();
 
 		http
